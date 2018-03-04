@@ -1,0 +1,14 @@
+<nav>
+  <mat-toolbar color="#0d4220" class="example-toolbar">
+    <h1 class="example-app-name">ZVI - vlastnosti obrazu</h1>
+    <a mat-button *ngFor="let nav of navLinks;"
+       [routerLink]="nav.link"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}">{{nav.label}}</a>
+  </mat-toolbar>
+</nav>
+<div class="container">
+  <div class="section">
+  <router-outlet></router-outlet>
+  </div>
+</div>

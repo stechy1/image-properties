@@ -1,0 +1,24 @@
+@import '~materialize-css/dist/css/materialize.css';
+@import '~reset-css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~ng2-file-input/ng2-file-input.css';
+
+* {
+  font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+}
+
+.my-canvas {
+  /*box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;*/
+  padding: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+mat-toolbar-row {
+  margin-bottom: 8px;
+}
+
+ng2-file-input {
+  width: 100%;
+}

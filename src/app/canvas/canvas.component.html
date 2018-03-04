@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col s10 offset-s1 l8 offset-l2">
+    <mat-card>
+      <mat-card-title>Kreslící oblast</mat-card-title>
+      <mat-card-content>
+        <div id="drawing-area"></div>
+        <div class="canvas-toolbar">
+          <mat-toolbar>
+            <mat-toolbar-row class="canvas-button-toolbar">
+              <div class="col s12">
+                <div class="col s12 m6 xl3">
+                  <button mat-raised-button color="warn" class="toolbar-button" (click)="handleClear()">Vymazat</button>
+                </div>
+                <div class="col s12 m6 xl3">
+                  <button mat-raised-button color="accent" class="toolbar-button" (click)="handleSave()">Uložit</button>
+                </div>
+                <div class="col s12 m6 xl3">
+                  <button mat-raised-button color="basic" class="toolbar-button" (click)="handleScreenshot()">Screenshot</button>
+                </div>
+                <div class="col s12 m6 xl3">
+                  <button mat-raised-button color="primary" class="toolbar-button" (click)="handleFindBorders()">Najdi hranice</button>
+                </div>
+              </div>
+            </mat-toolbar-row>
+            <mat-toolbar-row>
+              <ng2-file-input (onAction)="handleLoad($event)"
+                              [drop-text]="'Sem vložte soubor'"
+                              [browse-text]="'Prohlížet'"
+                              [remove-text]="'Odebrat'"
+                              [removable]="true"
+                              [multiple]="false"
+                              [show-previews]="false"></ng2-file-input>
+            </mat-toolbar-row>
+          </mat-toolbar>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

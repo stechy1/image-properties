@@ -1,0 +1,14 @@
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-container > * {
+  width: 100%;
+}
+
+.settings-footer {
+  padding: 8px;
+  text-align: right;
+}

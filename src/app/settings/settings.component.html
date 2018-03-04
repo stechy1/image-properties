@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col s12 m10 offset-m1 xl8 offset-xl2">
+    <mat-card class="settings-card">
+      <mat-card-title>Nastavení plátna</mat-card-title>
+      <mat-card-content>
+        <div class="settings-container">
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="number" id="cols" [(ngModel)]="settings.cols">
+              <label for="cols">Počet sloupečků</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="number" id="rows" [(ngModel)]="settings.rows">
+              <label for="rows">Počet řádků</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="number" id="test" [(ngModel)]="settings.spacing">
+              <label for="test">Velikost mezery</label>
+            </div>
+          </div>
+          <div class="row">
+            <mat-slide-toggle [(ngModel)]="settings.coordinates">Zobrazit souřadnicový systém</mat-slide-toggle>
+          </div>
+          <div class="row">
+            <mat-slide-toggle [(ngModel)]="settings.saveCanvasContent">Uložit obsah plátna při obnovení stránky
+            </mat-slide-toggle>
+          </div>
+        </div>
+        <div class="row">
+          <button mat-raised-button color="primary" class="right" (click)="handleAutoScale()">Automaticky zjistit velikost mezery</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 m10 offset-m1 xl8 offset-xl2">
+    <mat-card class="settings-card">
+      <mat-card-title>Nastavení aplikace</mat-card-title>
+      <mat-card-content>
+        <div class="settings-container">
+          <mat-form-field>
+            <mat-select placeholder="Výchozího okolí" [(ngModel)]="settings.direction">
+              <mat-option *ngFor="let dir of dirs" [value]="dir.value">
+                {{ dir.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

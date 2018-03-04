@@ -1,0 +1,24 @@
+.canvas-toolbar {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.canvas-toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 599px) {
+  .canvas-button-toolbar {
+    height: 192px;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  .canvas-button-toolbar {
+    height: 100px;
+  }
+}
+
+.canvas-button-toolbar button {
+  margin-bottom: 8px !important;
+}

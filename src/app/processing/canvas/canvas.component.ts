@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CanvasSettingsService} from '../canvas-settings.service';
+import { CanvasSettingsService } from './../../canvas-settings.service';
 import * as p5provider from './drawing-sources/p5provider';
 
 

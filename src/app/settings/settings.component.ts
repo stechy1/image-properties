@@ -1,4 +1,5 @@
 import {AfterContentInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
 import {CanvasSettingsService} from '../canvas-settings.service';
 import {MatSnackBar} from '@angular/material';
 
@@ -8,6 +9,8 @@ import {MatSnackBar} from '@angular/material';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent {
+
+  cols = new FormControl('', [Validators.required]);
 
   dirs = [
     {value: 4, viewValue: '4 - okolí'},

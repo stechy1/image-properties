@@ -54,10 +54,14 @@ export class BorderFinder {
   computeBorder(): GridPoint[] {
     const border = [];
     this._start = this._findFirstPoint();
+    this._direction.goNext();
+    console.log("Start point: ");
+    console.log(this._start);
     let next = this._findNext(this._start);
     let counter = 0;
     border.push(this._start);
     while (next != null && !BorderFinder.isPointEqual(this._start, next) && counter < 100) {
+      console.log(next);
       border.push(next);
       next = this._findNext(next);
       counter++;

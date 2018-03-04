@@ -29,20 +29,30 @@ export class CanvasSettingsService {
     return this._localStorageService.get<string>('canvasContent');
   }
 
-  set cols(value: number) {
+  get cols(): number {
+    return this._cols;
+  }
+
+  set cols(value: number|null) {
+    if (value === null) {
+      return;
+    }
+
     const oldValue = this._cols;
     this._cols = value;
     this._localStorageService.set('cols', this._cols);
     this.settingsChanged.emit(new SettingsEvent<number>('cols', oldValue, value));
   }
-  get cols(): number {
-    return this._cols;
-  }
+
 
   get rows(): number {
     return this._rows;
   }
-  set rows(value: number) {
+  set rows(value: number|null) {
+    if (value === null) {
+      return;
+    }
+
     const oldValue = this._rows;
     this._rows = value;
     this._localStorageService.set('rows', this._rows);
@@ -52,7 +62,11 @@ export class CanvasSettingsService {
   get spacing(): number {
     return this._spacing;
   }
-  set spacing(value: number) {
+  set spacing(value: number|null) {
+    if (value === null) {
+      return;
+    }
+
     const oldValue = this._spacing;
     this._spacing = value;
     this._localStorageService.set('spacing', this._spacing);

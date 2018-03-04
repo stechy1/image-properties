@@ -6,20 +6,35 @@
         <div class="settings-container">
           <div class="row">
             <div class="input-field col s12">
-              <input type="number" id="cols" [(ngModel)]="settings.cols">
               <label for="cols">Počet sloupečků</label>
+              <input type="number" id="cols" name="cols" [(ngModel)]="settings.cols" required #cols="ngModel">
+              <div *ngIf="cols.invalid && (cols.dirty || cols.touched)" class="alert alert-warning">
+                <div *ngIf="cols.errors.required">
+                  <span style="color: red">Je vyžadován počet sloupečků.</span>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input type="number" id="rows" [(ngModel)]="settings.rows">
+              <input type="number" id="rows" [(ngModel)]="settings.rows" required #rows="ngModel">
               <label for="rows">Počet řádků</label>
+              <div *ngIf="rows.invalid && (rows.dirty || rows.touched)">
+                <div *ngIf="rows.errors.required">
+                  <span style="color: red">Je vyžadován počet řádků.</span>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input type="number" id="test" [(ngModel)]="settings.spacing">
+              <input type="number" id="test" [(ngModel)]="settings.spacing" required #spacing="ngModel">
               <label for="test">Velikost mezery</label>
+              <div *ngIf="spacing.invalid && (spacing.dirty || spacing.touched)" class="alert alert-warning">
+                <div *ngIf="spacing.errors.required">
+                  <span style="color: red">Je vyžadována velikost mezery.</span>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">

@@ -119,10 +119,13 @@ export class Direction8 implements Direction {
       // Hodnota je lichá
       this._value = ((this._value + 6) % this.directions());
     }
+
+    console.log("Go next to: " + this._value);
   }
 
   increaseValue() {
     this._value = ((this._value + 1) % this.directions());
+    console.log("Increase value to: " + this._value);
   }
 
   getNextPoint(point) {

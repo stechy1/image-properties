@@ -21,6 +21,7 @@ export class Freeman {
     return new Freeman(new GridPoint(0, 0), [], 4);
   }
 
+  
   constructor(startPoint: GridPoint, path: Array<number>, directionCount: number) {
     this._startPoint = startPoint;
     this._path = path;
@@ -30,8 +31,8 @@ export class Freeman {
     console.log(path);
   }
 
-  save(): void {
-    const output = {
+  serialize(): {directionCount: number, start: {x: number, y: number}, path: Array<number>} {
+    return {
       directionCount: this._directionCount,
       start: {
         x: this._startPoint.x,
@@ -39,7 +40,6 @@ export class Freeman {
       },
       path: this._path
     };
-    p5.saveJSON(output, 'freeman.json');
   }
 
   writePointsToGrid(grid: GridPoint[][]): void {

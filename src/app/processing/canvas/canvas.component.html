@@ -1,4 +1,5 @@
-<div id="drawing-area">
+<div id="drawing-area" style="margin-top: 8px">
+  <canvas #my_canvas class="z-depth-1" on-click="handleClick($event)" (mousemove)="handleMove($event)" (mouseleave)="handleLeave($event)"></canvas>
 </div>
 <div class="canvas-toolbar">
   <mat-toolbar>

@@ -1,6 +1,6 @@
-import {GridPoint} from './grid-point';
 import {Direction, Direction4} from './direction';
 import {Freeman} from './freeman';
+import { GridPoint } from './grid-point';
 
 export class BorderFinder {
   private _grid: GridPoint[][];
@@ -10,7 +10,7 @@ export class BorderFinder {
   private _start: GridPoint|null;
 
   static isPointEqual(first: GridPoint, second: GridPoint): boolean {
-    return first.x === second.x && first.y === second.y;
+    return first.col === second.col && first.row === second.row;
   }
 
   constructor(grid: GridPoint[][], direction: Direction) {
@@ -22,10 +22,10 @@ export class BorderFinder {
   }
 
   _findFirstPoint(): GridPoint|null {
-    for (let i = 0; i < this._grid.length; i++) {
-      const col = this._grid[i];
-      for (let j = 0; j < col.length; j++) {
-        const element = col[j];
+    for (let col = 0; col < this._grid.length; col++) {
+      const cols = this._grid[col];
+      for (let row = 0; row < cols.length; row++) {
+        const element = cols[row];
         if (element.value === 1) {
           return element;
         }
@@ -38,8 +38,8 @@ export class BorderFinder {
   _findNext(point): GridPoint|null {
     for (let i = 0; i < this._direction.directions(); i++) {
       const p = this._direction.getNextPoint(point);
-      if (p.x >= 0 && p.x < this._cols && p.y >= 0 && p.y < this._rows) {
-        const gridPoint = this._grid[p.x][p.y];
+      if (p.col >= 0 && p.col < this._cols && p.row >= 0 && p.row < this._rows) {
+        const gridPoint = this._grid[p.col][p.row];
         if (gridPoint.value === 1) {
           this._direction.goNext();
           return gridPoint;
@@ -55,13 +55,10 @@ export class BorderFinder {
     const border = [];
     this._start = this._findFirstPoint();
     this._direction.goNext();
-    console.log("Start point: ");
-    console.log(this._start);
     let next = this._findNext(this._start);
     let counter = 0;
     border.push(this._start);
     while (next != null && !BorderFinder.isPointEqual(this._start, next) && counter < 100) {
-      console.log(next);
       border.push(next);
       next = this._findNext(next);
       counter++;
@@ -92,12 +89,12 @@ export class BorderWriter {
     this._freeman = [];
   }
 
-  _getEmptyNeighbours(point): Array<number> {
+  _getEmptyNeighbours(point: GridPoint): Array<number> {
     const neighbours = [];
 
     // Dívám se na souseda vpravo
-    if (point.x > 0) {
-      const neighbour = this._grid[point.x - 1][point.y];
+    if (point.col > 0) {
+      const neighbour = this._grid[point.col - 1][point.row];
       if (neighbour.value === -1) {
         neighbours.push(Direction4.LEFT());
       }
@@ -106,8 +103,8 @@ export class BorderWriter {
     }
 
     // Dívám se na souseda vlevo
-    if (point.x < this._cols - 1) {
-      const neighbour = this._grid[point.x + 1][point.y];
+    if (point.col < this._cols - 1) {
+      const neighbour = this._grid[point.col + 1][point.row];
       if (neighbour.value === -1) {
         neighbours.push(Direction4.RIGHT());
       }
@@ -116,8 +113,8 @@ export class BorderWriter {
     }
 
     // Dívám se na souseda nahoře
-    if (point.y > 0) {
-      const neighbour = this._grid[point.x][point.y - 1];
+    if (point.row > 0) {
+      const neighbour = this._grid[point.col][point.row - 1];
       if (neighbour.value === -1) {
         neighbours.push(Direction4.TOP());
       }
@@ -126,8 +123,8 @@ export class BorderWriter {
     }
 
     // Dívám se na souseda dole
-    if (point.y < this._rows - 1) {
-      const neighbour = this._grid[point.x][point.y + 1];
+    if (point.row < this._rows - 1) {
+      const neighbour = this._grid[point.col][point.row + 1];
       if (neighbour.value === -1) {
         neighbours.push(Direction4.BOTTOM());
       }
@@ -141,12 +138,12 @@ export class BorderWriter {
   write(): void {
     let last = this._border[0];
     let neighbours = this._getEmptyNeighbours(last);
-    this._grid[last.x][last.y].borders = neighbours;
+    this._grid[last.col][last.row].borders = neighbours;
 
     for (let i = 1; i < this._border.length; i++) {
       const point = this._border[i];
       neighbours = this._getEmptyNeighbours(point);
-      this._grid[point.x][point.y].borders = neighbours;
+      this._grid[point.col][point.row].borders = neighbours;
 
       this._freeman.push(this._direction.getDirectionBetween(last, point));
 

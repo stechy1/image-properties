@@ -1,3 +1,5 @@
+import { GridPoint } from "./grid-point";
+
 export class Direction4 implements Direction {
   private _value: number;
 
@@ -21,41 +23,41 @@ export class Direction4 implements Direction {
     this._value = value === -1 ? Direction4.BOTTOM() : value;
   }
 
-  goNext() {
+  goNext(): void {
     this._value = ((this._value + 3) % this.directions());
   }
 
-  increaseValue() {
+  increaseValue(): void {
     this._value = ((this._value + 1) % this.directions());
   }
 
-  getNextPoint(point): {x: number, y: number} {
+  getNextPoint(point: {col: number, row: number}): {col: number, row: number} {
     switch (this._value) {
       case 0:
-        return {x: point.x + 1, y: point.y};
+        return {col: point.col + 1, row: point.row};
       case 1:
-        return {x: point.x, y: point.y - 1};
+        return {col: point.col, row: point.row - 1};
       case 2:
-        return {x: point.x - 1, y: point.y};
+        return {col: point.col - 1, row: point.row};
       case 3:
-        return {x: point.x, y: point.y + 1};
+        return {col: point.col, row: point.row + 1};
     }
   }
 
-  getDirectionBetween(first: any, second: any): number {
-    if (first.x > second.x) {
+  getDirectionBetween(first: GridPoint, second: GridPoint): number {
+    if (first.col > second.col) {
       return Direction4.LEFT();
     }
 
-    if (second.x > first.x) {
+    if (second.col > first.col) {
       return Direction4.RIGHT();
     }
 
-    if (first.y > second.y) {
+    if (first.row > second.row) {
       return Direction4.TOP();
     }
 
-    if (first.y < second.y) {
+    if (first.row < second.row) {
       return Direction4.BOTTOM();
     }
 
@@ -119,55 +121,52 @@ export class Direction8 implements Direction {
       // Hodnota je lichá
       this._value = ((this._value + 6) % this.directions());
     }
-
-    console.log("Go next to: " + this._value);
   }
 
-  increaseValue() {
+  increaseValue(): void {
     this._value = ((this._value + 1) % this.directions());
-    console.log("Increase value to: " + this._value);
   }
 
-  getNextPoint(point) {
+  getNextPoint(point: {col: number, row: number}): {col: number, row: number} {
     switch (this._value) {
       case 0:
-        return {x: point.x + 1, y: point.y};
+        return {col: point.col + 1, row: point.row};
       case 1:
-        return {x: point.x + 1, y: point.y - 1};
+        return {col: point.col + 1, row: point.row - 1};
       case 2:
-        return {x: point.x, y: point.y - 1};
+        return {col: point.col, row: point.row - 1};
       case 3:
-        return {x: point.x - 1, y: point.y - 1};
+        return {col: point.col - 1, row: point.row - 1};
       case 4:
-        return {x: point.x - 1, y: point.y};
+        return {col: point.col - 1, row: point.row};
       case 5:
-        return {x: point.x - 1, y: point.y + 1};
+        return {col: point.col - 1, row: point.row + 1};
       case 6:
-        return {x: point.x, y: point.y + 1};
+        return {col: point.col, row: point.row + 1};
       case 7:
-        return {x: point.x + 1, y: point.y + 1};
+        return {col: point.col + 1, row: point.row + 1};
     }
   }
 
-  getDirectionBetween(first, second): number {
-    if (first.x > second.x) {
-      if (first.y < second.y) {
+  getDirectionBetween(first: GridPoint, second: GridPoint): number {
+    if (first.col > second.col) {
+      if (first.row < second.row) {
         return Direction8.BOTTOM_LEFT();
       }
 
-      if (first.y > second.y) {
+      if (first.row > second.row) {
         return Direction8.TOP_LEFT();
       }
 
       return Direction8.LEFT();
     }
 
-    if (second.x > first.x) {
-      if (first.y < second.y) {
+    if (second.col > first.col) {
+      if (first.row < second.row) {
         return Direction8.BOTTOM_RIGHT();
       }
 
-      if (first.y > second.y) {
+      if (first.row > second.row) {
         return Direction8.TOP_RIGHT();
       }
 
@@ -175,11 +174,11 @@ export class Direction8 implements Direction {
     }
 
     // V tomto případě se již X-ové souřadnice musejí rovnat
-    if (first.y > second.y) {
+    if (first.row > second.row) {
       return Direction8.TOP();
     }
 
-    if (first.y < second.y) {
+    if (first.row < second.row) {
       return Direction8.BOTTOM();
     }
 
@@ -199,8 +198,8 @@ export class Direction8 implements Direction {
 export interface Direction {
   goNext(): void;
   increaseValue(): void;
-  getNextPoint(point: any): any;
-  getDirectionBetween(first: any, second: any): number;
+  getNextPoint(point: {col: number, row: number}): {col: number, row: number};
+  getDirectionBetween(first: GridPoint, second: GridPoint): number;
   directions(): number;
   setDirection(direction: number): void;
 }

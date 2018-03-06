@@ -18,6 +18,8 @@ import 'materialize-css';
 import { MaterializeModule } from 'angular2-materialize';
 import { Ng2FileInputModule } from 'ng2-file-input';
 import { ImagePropertiesComponent } from './processing/image-properties/image-properties.component';
+import { AreaContentComponent } from './processing/image-properties/area-content/area-content.component';
+import { AreaCircumferenceComponent } from './processing/image-properties/area-circumference/area-circumference.component';
 
 
 
@@ -33,7 +35,9 @@ const appRoutes: Routes = [
     SettingsComponent,
     ProcessingComponent,
     CanvasComponent,
-    ImagePropertiesComponent
+    ImagePropertiesComponent,
+    AreaContentComponent,
+    AreaCircumferenceComponent
   ],
   imports: [
     BrowserModule,

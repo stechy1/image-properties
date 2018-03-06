@@ -1,28 +1,54 @@
-import * as p5 from 'p5';
-import {Drawer} from './drawer';
+import {Direction4} from './direction';
+import { Drawer } from './drawer';
 
 export class GridPoint {
 
-  private _coord: p5.Vector;
   private _borders: Array<number>;
   private _visualization: string;
   private _value: number;
 
-  constructor(x: number, y: number) {
-    this._coord = new p5.Vector(x, y);
+  constructor(private _col: number, private _row: number,
+    private _rawCoordinates: {
+      x: number, y: number
+      , topLeft: { x: number, y: number }
+      , topRight: { x: number, y: number }
+      , bottomLeft: { x: number, y: number }
+      , bottomRight: { x: number, y: number }
+    }) {
     this._borders = [];
     this._visualization = '';
     this._value = -1;
   }
 
+  _highlightBorder(drawer: Drawer): void {
+    this._borders.forEach((direction) => {
+        switch (direction) {
+            case Direction4.RIGHT():
+                drawer.drawLine(this._rawCoordinates.bottomRight, this._rawCoordinates.topRight);
+                break;
+            case Direction4.TOP():
+                drawer.drawLine(this._rawCoordinates.topLeft, this._rawCoordinates.topRight);
+                break;
+            case Direction4.LEFT():
+                drawer.drawLine(this._rawCoordinates.bottomLeft, this._rawCoordinates.topLeft);
+                break;
+            case Direction4.BOTTOM():
+                drawer.drawLine(this._rawCoordinates.bottomLeft, this._rawCoordinates.bottomRight);
+                break;
+        }
+    });
+}
+
   draw(drawer: Drawer): void {
-    drawer.drawStrike(this._coord.x, this._coord.y);
+    drawer.drawLine(this._rawCoordinates.topLeft, this._rawCoordinates.bottomRight);
+    drawer.drawLine(this._rawCoordinates.bottomLeft, this._rawCoordinates.topRight);
+
     if (this._borders.length !== 0) {
-      drawer.push();
-      drawer.strokeWeight(2);
-      drawer.stroke('red');
-      drawer.highlightBorder(this._coord.x, this._coord.y, this._borders);
-      drawer.pop();
+        drawer.push();
+        drawer.lineWidth = 2;
+        drawer.strokeStyle = 'red';
+        this._highlightBorder(drawer);
+        drawer.pop();
     }
   }
 
@@ -37,6 +63,7 @@ export class GridPoint {
 
   togglePoint(): void {
     this._value *= -1;
+    console.log("Toggle to: " + this._value);
   }
 
   setPoint(): void {
@@ -51,15 +78,25 @@ export class GridPoint {
     this._borders = value;
   }
 
-  get x(): number {
-    return this._coord.x;
+  get col(): number {
+    return this._col;
   }
 
-  get y(): number {
-    return this._coord.y;
+  get row(): number {
+    return this._row;
   }
 
   get value(): number {
     return this._value;
+  }
+
+  get rawCoordinates(): {
+    x: number, y: number
+    , topLeft: { x: number, y: number }
+    , topRight: { x: number, y: number }
+    , bottomLeft: { x: number, y: number }
+    , bottomRight: { x: number, y: number }
+  } {
+    return this._rawCoordinates;
   }
 }

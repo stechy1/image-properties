@@ -17,6 +17,7 @@ import { AppMaterialModule } from './app.material.module';
 import 'materialize-css';
 import { MaterializeModule } from 'angular2-materialize';
 import { Ng2FileInputModule } from 'ng2-file-input';
+import { ImagePropertiesComponent } from './processing/image-properties/image-properties.component';
 
 
 
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
     AppComponent,
     SettingsComponent,
     ProcessingComponent,
-    CanvasComponent
+    CanvasComponent,
+    ImagePropertiesComponent
   ],
   imports: [
     BrowserModule,

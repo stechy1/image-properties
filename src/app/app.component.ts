@@ -15,7 +15,7 @@ export class AppComponent implements OnDestroy {
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
     this.navLinks = [
-      { link: 'canvas', label: 'Plátno' },
+      { link: 'home', label: 'Plátno' },
       { link: 'settings', label: 'Nastavení' }
     ];
 

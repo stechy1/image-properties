@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Freeman } from '../canvas/drawing-sources/freeman';
+import {Grid} from '../canvas/drawing-sources/grid';
 
 @Component({
   selector: 'app-image-properties',
@@ -9,8 +10,18 @@ import { Freeman } from '../canvas/drawing-sources/freeman';
 export class ImagePropertiesComponent implements OnInit {
 
   private _freeman: Freeman;
+  private _grid: Grid;
 
-  @Input() 
+  @Input()
+  set grid(value: Grid) {
+    this._grid = value;
+  }
+
+  get grid(): Grid {
+    return this._grid;
+  }
+
+  @Input()
   set freeman(freeman: Freeman) {
     this._freeman = freeman;
   }
@@ -18,6 +29,7 @@ export class ImagePropertiesComponent implements OnInit {
   get freeman(): Freeman {
     return this._freeman;
   }
+
 
   constructor() { }
 

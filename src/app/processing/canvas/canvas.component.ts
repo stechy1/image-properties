@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import * as FileSaver from 'file-saver';
-import { CanvasSettingsService } from './../../canvas-settings.service';
+import { CanvasSettingsService } from '../../canvas-settings.service';
 import { Drawer } from './drawing-sources/drawer';
 import { Grid } from './drawing-sources/grid';
 import { Freeman } from './drawing-sources/freeman';
@@ -21,6 +21,7 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   private freeman: Freeman;
 
   @Output() freemanChanged: EventEmitter<Freeman> = new EventEmitter();
+  @Output() gridChanged: EventEmitter<Grid> = new EventEmitter<Grid>();
 
   constructor(private _settings: CanvasSettingsService) {
     this.freeman = null;
@@ -38,7 +39,7 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.freeman) {
       this.freeman.draw(this._grid);
     }
-    
+
     this._grid.drawer.pop();
   }
 
@@ -60,6 +61,7 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
       this._grid.loadPoints(JSON.parse(this._settings.canvasContent));
     }
     this._redrawCanvas();
+    this.gridChanged.emit(this._grid);
   }
 
   ngOnDestroy() {
@@ -72,6 +74,7 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     this.freeman = null;
     this._grid._prepareGrid();
     this._redrawCanvas();
+    this.gridChanged.emit(this._grid);
   }
 
   handleLoad(event: any) {
@@ -83,6 +86,7 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
         const data = JSON.parse(content);
         this._grid.loadPoints(data);
         this._redrawCanvas();
+        this.gridChanged.emit(this._grid);
       };
       reader.readAsText(file);
     }
@@ -90,7 +94,7 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
 
   handleSave() {
     const blob = new Blob([JSON.stringify(this._grid.savePoints())]);
-    FileSaver.saveAs(blob, "grid.json");
+    FileSaver.saveAs(blob, 'grid.json');
   }
 
   handleScreenshot() {
@@ -104,6 +108,7 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     borderVisualizer.write();
     this.freeman = new Freeman(borderFinder.startPoint, borderVisualizer.freeman, direction.directions());
     this._redrawCanvas();
+    this.gridChanged.emit(this._grid);
     this.freemanChanged.emit(this.freeman);
   }
 
@@ -113,19 +118,19 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
       const point = this._grid.mouseToPoint(coord);
       this._grid.togglePoint(point);
       this._redrawCanvas();
+      this.gridChanged.emit(this._grid);
     }
   }
 
   handleMove(e: MouseEvent): void {
     const coord = this._mousePosRelative(e);
     if (this._grid.isMouseInGridmouse(coord)) {
-      const point = this._grid.mouseToPoint(coord);
-      this._grid.highlighted = point;
+      this._grid.highlighted = this._grid.mouseToPoint(coord);
       this._redrawCanvas();
     }
   }
 
-  handleLeave(e: MouseEvent): void {
+  handleLeave(): void {
     this._grid.highlighted = null;
     this._redrawCanvas();
   }

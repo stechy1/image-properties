@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Freeman } from './canvas/drawing-sources/freeman';
+import {Grid} from './canvas/drawing-sources/grid';
 
 @Component({
   selector: 'app-processing',
@@ -8,15 +9,27 @@ import { Freeman } from './canvas/drawing-sources/freeman';
 })
 export class ProcessingComponent implements OnInit {
 
-  public freeman: Freeman;
+  private _freeman: Freeman;
+  private _grid: Grid;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onFreemanChanged(e: Freeman) {
-    this.freeman = e;
+  get freeman(): Freeman {
+    return this._freeman;
   }
 
+  get grid(): Grid {
+    return this._grid;
+  }
+
+  onFreemanChanged(e: Freeman) {
+    this._freeman = e;
+  }
+
+  onGridChanged(e: Grid) {
+    this._grid = e;
+  }
 }

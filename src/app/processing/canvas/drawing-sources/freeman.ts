@@ -79,14 +79,14 @@ export class Freeman {
    * Vrátí počet sudých směrů
    */
   get evenDirections(): number {
-    return this._path.filter((value)=> (value % 2) == 0).reduce((a, b) => a+b);
+    return this._path.filter((value) => (value % 2) === 0).reduce((a, b) => a + b);
   }
 
   /**
    * Vrátí počet lichých směrů
    */
   get oddDirections(): number {
-    return this._path.filter((value)=> (value % 2) != 0).reduce((a, b) => a+b);
+    return this._path.filter((value) => (value % 2) !== 0).reduce((a, b) => a + b);
   }
 
   /**
@@ -108,6 +108,13 @@ export class Freeman {
     });
 
     return changes;
+  }
+
+  /**
+   * Vrátí celkovou délku cesty
+   */
+  get pathSize(): number {
+    return this._path.length;
   }
 
 }

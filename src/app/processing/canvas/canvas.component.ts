@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { CanvasSettingsService } from './../../canvas-settings.service';
 import { Drawer } from './drawing-sources/drawer';
@@ -18,10 +18,12 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('my_canvas')
   private _canvas: ElementRef;
   private _grid: Grid;
-  private _freeman: Freeman;
+  private freeman: Freeman;
+
+  @Output() freemanChanged: EventEmitter<Freeman> = new EventEmitter();
 
   constructor(private _settings: CanvasSettingsService) {
-    this._freeman = null;
+    this.freeman = null;
   }
 
   _mousePosRelative(event: MouseEvent): { x: number, y: number } {
@@ -33,8 +35,8 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     this._grid.drawer.push();
 
     this._grid.showGrid();
-    if (this._freeman) {
-      this._freeman.draw(this._grid);
+    if (this.freeman) {
+      this.freeman.draw(this._grid);
     }
     
     this._grid.drawer.pop();
@@ -67,7 +69,7 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleClear() {
-    this._freeman = null;
+    this.freeman = null;
     this._grid._prepareGrid();
     this._redrawCanvas();
   }
@@ -100,8 +102,9 @@ export class CanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     const borderFinder = new BorderFinder(this._grid.points, direction);
     const borderVisualizer = new BorderWriter(borderFinder.computeBorder(), this._grid.points, direction);
     borderVisualizer.write();
-    this._freeman = new Freeman(borderFinder.startPoint, borderVisualizer.freeman, direction.directions());
+    this.freeman = new Freeman(borderFinder.startPoint, borderVisualizer.freeman, direction.directions());
     this._redrawCanvas();
+    this.freemanChanged.emit(this.freeman);
   }
 
   handleClick(e: MouseEvent) {

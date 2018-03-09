@@ -4,10 +4,10 @@
       <mat-card-content>
           <mat-tab-group>
             <mat-tab label="Kreslící oblast">
-              <app-canvas></app-canvas>
+              <app-canvas (freemanChanged)="onFreemanChanged($event)"></app-canvas>
             </mat-tab>
             <mat-tab label="Parametry obrazu">
-              <app-image-properties></app-image-properties>
+              <app-image-properties [freeman]="freeman"></app-image-properties>
             </mat-tab>
             <mat-tab label="Freeman">
 

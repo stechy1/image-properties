@@ -125,8 +125,6 @@ export class Grid {
     }
 
     drawArrow(from: {col: number, row: number}, to: {col: number, row: number}): void {
-        console.log(from);
-        console.log(to);
         const start = this._getPoint(from.col, from.row);
         const end = this._getPoint(to.col, to.row);
         this._drawer.drawArrow(start, end);

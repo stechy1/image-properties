@@ -49,9 +49,6 @@ export class Drawer {
     }
 
     drawArrow(start: { x: number, y: number }, end: { x: number, y: number }, multiplier = 0.5, offset = 10): void {
-        console.log("Draw arrow");
-        console.log(start);
-        console.log(end);
         this.drawLine(start, end);
         this._ctx.save();
         this.fillStyle = 'black';
@@ -67,8 +64,7 @@ export class Drawer {
     }
 
     clear(): void {
-        this._ctx.fillStyle = 'white';
-        this._ctx.fillRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height);
+        this._ctx.clearRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height);
     }
 
     push(): void {

@@ -22,8 +22,6 @@ export class Freeman {
     this._path = path;
     this._directionCount = directionCount;
     this._direction = DirectionBuilder.from(directionCount);
-    console.log(startPoint);
-    console.log(path);
   }
 
   serialize(): { directionCount: number, start: { x: number, y: number }, path: Array<number> } {
@@ -75,6 +73,41 @@ export class Freeman {
 
   get directionCount(): number {
     return this._directionCount;
+  }
+
+  /**
+   * Vrátí počet sudých směrů
+   */
+  get evenDirections(): number {
+    return this._path.filter((value)=> (value % 2) == 0).reduce((a, b) => a+b);
+  }
+
+  /**
+   * Vrátí počet lichých směrů
+   */
+  get oddDirections(): number {
+    return this._path.filter((value)=> (value % 2) != 0).reduce((a, b) => a+b);
+  }
+
+  /**
+   * Vrátí počet rohových bodů
+   * = počet změn směru v okolí mezi sudým a lichým směrem
+   */
+  get cornerDirections(): number {
+    let changes = 0;
+    let lastValue = this._path[0];
+    this._path.forEach((value) => {
+      if (value === lastValue) {
+        return;
+      }
+
+      if ((lastValue % 2) !== (value % 2)) {
+        changes++;
+        lastValue = value;
+      }
+    });
+
+    return changes;
   }
 
 }

@@ -2,6 +2,7 @@ import {Grid} from './grid';
 import { Direction, DirectionBuilder } from './direction';
 import { Drawer } from './drawer';
 import { GridPoint } from './grid-point';
+import {directive} from '@angular/core/src/render3/instructions';
 
 export class Freeman {
   private _startPoint: GridPoint | any;
@@ -79,14 +80,24 @@ export class Freeman {
    * Vrátí počet sudých směrů
    */
   get evenDirections(): number {
-    return this._path.filter((value) => (value % 2) === 0).reduce((a, b) => a + b);
+    const even = this._path.filter((value) => (value % 2) === 0);
+    if (even.length === 0) {
+      return 0;
+    }
+
+    return even.reduce((a, b) => a + b);
   }
 
   /**
    * Vrátí počet lichých směrů
    */
   get oddDirections(): number {
-    return this._path.filter((value) => (value % 2) !== 0).reduce((a, b) => a + b);
+    const odd = this._path.filter((value) => (value % 2) !== 0);
+    if (odd.length === 0) {
+      return 0;
+    }
+
+    return odd.reduce((a, b) => a + b);
   }
 
   /**
@@ -117,4 +128,24 @@ export class Freeman {
     return this._path.length;
   }
 
+  createBorderPointArray(grid: GridPoint[][]): Promise<any> {
+    return new Promise((resolve) => {
+      const points = [];
+      points.push(this._startPoint);
+      const dir = DirectionBuilder.from(this._directionCount, this._path[0]);
+      let next = {col: this._startPoint.col, row: this._startPoint.row};
+      for (let i = 1; i < this._path.length; i++) {
+        const element = this._path[i];
+        next = dir.getNextPoint(next);
+        const point = grid[next.col][next.row];
+        points.push(point);
+        dir.setDirection(element);
+      }
+      next = dir.getNextPoint(next);
+      const endPoint = grid[next.col][next.row];
+      points.push(endPoint);
+
+      resolve(points);
+    });
+  }
 }
